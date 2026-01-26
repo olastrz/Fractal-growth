@@ -1,33 +1,39 @@
-'''class Aggregate:
+import random
+
+class Aggregate:
     def __init__(self, seed_position):
-        """
-        - self.particles: set of (x, y) tuples
-        - self.perimeter: set of neighboring empty sites
-        - self.radius: current max distance from seed
-        """
+        self.seed = seed_position
+        self.particles = {seed_position}
+        self.attachment_sites = set()
+        self._initialize_attachment_sites()
+    
+    def _get_neighbors(self, position):
+        """Return 8 neighbors"""
+        x, y = position
+        
+        neighbors = [
+            (x+1, y), (x-1, y), (x, y+1), (x, y-1),
+            (x+1, y+1), (x+1, y-1), (x-1, y+1), (x-1, y-1)
+        ]
+        
+        random.shuffle(neighbors)
+        return neighbors
+    
+    def _initialize_attachment_sites(self):
+        """Add neighbors of seed to attachment sites"""
+        for neighbor in self._get_neighbors(self.seed):
+            if neighbor not in self.particles:
+                self.attachment_sites.add(neighbor)
     
     def add_particle(self, position):
-        """
-        - Add position to particles set
-        - Update perimeter (add new neighbors, remove filled site)
-        - Update radius
-        """
+        """Add particle and update attachment sites"""
+        self.particles.add(position)
+        self.attachment_sites.discard(position)
+        
+        for neighbor in self._get_neighbors(position):
+            if neighbor not in self.particles:
+                self.attachment_sites.add(neighbor)
     
-    def is_occupied(self, position):
-        """Check if position is in aggregate"""
-    
-    def get_neighbors(self, position):
-        """Return 4 or 8 neighbors (lattice sites)"""
-    
-    def update_perimeter(self, position):
-        """
-        - Remove position from perimeter
-        - Add unoccupied neighbors to perimeter
-        """
-    
-    def get_radius(self):
-        """Return max distance from seed to any particle"""
-    
-    def get_center_of_mass(self):
-        """For fractal dimension calculation"""
-'''
+    def is_attachment_site(self, position):
+        """Check if position is available for attachment"""
+        return position in self.attachment_sites
