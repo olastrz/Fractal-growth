@@ -38,3 +38,11 @@ class Aggregate:
     def is_attachment_site(self, position):
         """Check if position is available for attachment"""
         return position in self.attachment_sites
+    
+    def get_radius(self):
+        """Max distance from seed"""
+        if not self.particles:
+            return 0
+        distances = [((x - self.seed[0])**2 + (y - self.seed[1])**2)**0.5 
+                     for x, y in self.particles]
+        return max(distances)
