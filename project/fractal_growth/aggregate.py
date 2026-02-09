@@ -2,6 +2,7 @@ import random
 
 class Aggregate:
     """Represents an aggregate of particles in a fractal growth simulation."""
+    
     def __init__(self, seed_position):
         self.seed = seed_position
         self.particles = {seed_position}
