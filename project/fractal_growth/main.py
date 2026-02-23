@@ -1,28 +1,16 @@
-'''
 from simulation import Simulation
 from visualization import Visualizer
-from analysis import calculate_fractal_dimension, plot_fractal_analysis
-import config
+from analysis import print_fractal_dimension
 
 def main():
-    # Create simulation
-    sim = Simulation()
     viz = Visualizer()
+
+    sim = Simulation()
+    aggregate = sim.run(visualizer=viz)
     
-    # Run DLA growth
-    print("Starting DLA simulation...")
-    sim.run(visualizer=viz)
-    
-    # Final visualization
-    viz.save_final(sim.aggregate, f"{config.OUTPUT_DIR}/final_aggregate.png")
-    
-    # Fractal analysis
-    D_f = calculate_fractal_dimension(sim.aggregate)
-    print(f"Fractal dimension: {D_f:.3f}")
-    
-    plot_fractal_analysis(sim.aggregate)
-    plt.show()
+    print_fractal_dimension(aggregate)
+
+    input("Press Enter to exit...")
 
 if __name__ == "__main__":
     main()
-'''
