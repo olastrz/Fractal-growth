@@ -14,11 +14,9 @@ def calculate_fractal_dimension(aggregate, num_points=20):
     """
     max_radius = aggregate.get_radius()
     
-    # Create logarithmically spaced radii
     radii = np.logspace(np.log10(2), np.log10(max_radius), num_points)
     masses = []
     
-    # Count particles within each radius
     for r in radii:
         mass = 0
         for particle in aggregate.particles:
@@ -27,13 +25,10 @@ def calculate_fractal_dimension(aggregate, num_points=20):
             if distance <= r:
                 mass += 1
         masses.append(mass)
-    
-    # Filter out zeros and take log
+
     valid_indices = [i for i, m in enumerate(masses) if m > 0]
     log_radii = np.log10([radii[i] for i in valid_indices])
     log_masses = np.log10([masses[i] for i in valid_indices])
-    
-    # Linear fit in log-log space: log(M) = D_f * log(r) + const
     slope, intercept, r_value, p_value, std_err = linregress(log_radii, log_masses)
     
     return slope

@@ -28,7 +28,7 @@ class Visualizer:
                 c=distances, 
                 cmap='viridis',
                 s=10,
-                marker='s',
+                marker='o',
                 edgecolors='none'
             )
             
@@ -45,7 +45,6 @@ class Visualizer:
         
         self.ax.grid(True, alpha=0.2, linestyle='--', linewidth=0.5)
         
-        # Set limits based on aggregate size
         margin = 20
         radius = aggregate.get_radius()
         center_x, center_y = aggregate.seed
@@ -68,8 +67,6 @@ class Visualizer:
         if len(aggregate.particles) > 0:
             x_coords = [p[0] for p in aggregate.particles]
             y_coords = [p[1] for p in aggregate.particles]
-            
-            # Height = distance from seed
             z_coords = [
                 np.sqrt((x - aggregate.seed[0])**2 + (y - aggregate.seed[1])**2)
                 for x, y in aggregate.particles
@@ -89,6 +86,5 @@ class Visualizer:
         self.ax_3d.set_zlabel('Distance')
         self.ax_3d.set_title(f'2.5D View - {step} particles')
         
-        # Rotate
         self.angle_3d = (self.angle_3d + 1) % 360
         self.ax_3d.view_init(elev=30, azim=self.angle_3d)

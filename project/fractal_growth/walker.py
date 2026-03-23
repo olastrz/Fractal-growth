@@ -1,4 +1,5 @@
 import random
+import config 
 
 class Walker:
     def __init__(self, position):
@@ -15,6 +16,13 @@ class Walker:
             (-1, 1),
             (-1, -1)
         ]
+        if config.USE_DIAGONALS:
+            directions.extend([
+                (1, 1),
+                (1, -1),
+                (-1, 1),
+                (-1, -1)
+            ])
         
         dx, dy = random.choice(directions)
         self.x += dx

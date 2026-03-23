@@ -1,4 +1,5 @@
 import random
+import config 
 
 class Aggregate:
     """Represents an aggregate of particles in a fractal growth simulation."""
@@ -17,6 +18,11 @@ class Aggregate:
             (x+1, y), (x-1, y), (x, y+1), (x, y-1),
             (x+1, y+1), (x+1, y-1), (x-1, y+1), (x-1, y-1)
         ]
+        if config.USE_DIAGONALS:
+            neighbors.extend([
+                (x+1, y+1), (x+1, y-1), 
+                (x-1, y+1), (x-1, y-1)
+            ])
         
         random.shuffle(neighbors)
         return neighbors
